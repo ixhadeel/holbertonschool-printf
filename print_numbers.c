@@ -2,34 +2,30 @@
 
 /**
  * print_int - prints an integer
- * @args: argument list containing the integer to print
+ * @n: integer to print
  * Return: number of characters printed
  */
-int print_int(va_list args)
+int print_int(int n)
 {
-	long int n = va_arg(args, int);
-	long int res;
+	unsigned int num;
 	int count = 0;
-	long int div = 1;
 
 	if (n < 0)
 	{
-		count += _putchar('-');
-		n = -n;
+		count += send_char('-');
+		num = -n;
+	}
+	else
+	{
+		num = n;
 	}
 
-	res = n;
-	while (res > 9)
+	if (num / 10)
 	{
-		div *= 10;
-		res /= 10;
+		count += print_int(num / 10);
 	}
 
-	while (div >= 1)
-	{
-		count += _putchar(((n / div) % 10) + '0');
-		div /= 10;
-	}
+	count += send_char((num % 10) + '0');
 
 	return (count);
 }

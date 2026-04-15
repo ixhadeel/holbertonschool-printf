@@ -1,48 +1,42 @@
 #include "main.h"
 
 /**
- * _printf - custom printf function using a struct array
- * @format: the format string containing text and specifiers
- * Return: the total number of characters printed
+ * _printf - custom printf function
+ * @format: character string
+ * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	fmt_t func[] = {{"c", p_char}, {"s", p_str}, {NULL, NULL}};
-	va_list args;
-	int i = 0, j, total_len = 0;
+	va_list my_args;
+	int i = 0, total_len = 0;
 
 	if (!format || (format[0] == '%' && !format[1]))
 		return (-1);
 
-	va_start(args, format);
+	va_start(my_args, format);
 	while (format && format[i])
 	{
 		if (format[i] == '%')
 		{
 			i++;
-			if (format[i] == '%')
-				total_len += write(1, "%", 1);
-			else
+			if (format[i] == 'c')
+				total_len += send_char(va_arg(my_args, int));
+			else if (format[i] == 's')
+				total_len += put_text(va_arg(my_args, char *));
+			else if (format[i] == '%')
+				total_len += send_char('%');
+			else if (format[i])
 			{
-				for (j = 0; func[j].type; j++)
-				{
-					if (format[i] == *(func[j].type))
-					{
-						total_len += func[j].f(args);
-						break;
-					}
-				}
-				if (!func[j].type)
-				{
-					total_len += write(1, &format[i - 1], 1);
-					total_len += write(1, &format[i], 1);
-				}
+				total_len += send_char('%');
+				total_len += send_char(format[i]);
 			}
 		}
 		else
-			total_len += write(1, &format[i], 1);
+		{
+			total_len += send_char(format[i]);
+		}
 		i++;
 	}
-	va_end(args);
+	va_end(my_args);
 	return (total_len);
 }
