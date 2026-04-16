@@ -14,3 +14,8 @@ Handle characters, strings, and the percent sign.
 .TP
 .B d, i
 Handle signed decimal integers.
+.SH EXAMPLES
+_printf("Hello %s\\n", "Hadeel");
+_printf("Number: %d\\n", 2026);
+.SH AUTHORS
+Hadeel and Ahaad.
