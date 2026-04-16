@@ -1,46 +1,48 @@
 #include "main.h"
 
 /**
- * _printf - custom printf function
+ * _printf - produces output according to a format
  * @format: character string
  * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	va_list my_args;
-	int i = 0, total_len = 0;
+	va_list args;
+	int i = 0, j, count = 0;
+	fmt_t forms[] = {
+		{"c", print_char}, {"s", print_str},
+		{"%", print_pct}, {"d", print_int},
+		{"i", print_int}, {NULL, NULL}
+	};
 
+	va_start(args, format);
 	if (!format || (format[0] == '%' && !format[1]))
 		return (-1);
-
-	va_start(my_args, format);
 	while (format && format[i])
 	{
 		if (format[i] == '%')
 		{
 			i++;
-			if (format[i] == 'c')
-				total_len += send_char(va_arg(my_args, int));
-			else if (format[i] == 's')
-				total_len += put_text(va_arg(my_args, char *));
-			else if (format[i] == '%')
-				total_len += send_char('%');
-			else if (format[i])
+			j = 0;
+			while (forms[j].type)
 			{
-				total_len += send_char('%');
-				total_len += send_char(format[i]);
+				if (format[i] == *(forms[j].type))
+				{
+					count += forms[j].f(args);
+					break;
+				}
+				j++;
+			}
+			if (!forms[j].type)
+			{
+				count += _putchar('%');
+				count += _putchar(format[i]);
 			}
 		}
 		else
-		{
-			total_len += send_char(format[i]);
-		}
+			count += _putchar(format[i]);
 		i++;
 	}
-	va_end(my_args);
-	return (total_len);
-	if (format[i] == 'd' || format[i] == 'i')
-{
-    count += print_int(args);
-}
+	va_end(args);
+	return (count);
 }
