@@ -39,4 +39,8 @@ int _printf(const char *format, ...)
 	}
 	va_end(my_args);
 	return (total_len);
+	if (format[i] == 'd' || format[i] == 'i')
+{
+    count += print_int(args);
+}
 }

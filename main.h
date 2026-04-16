@@ -3,11 +3,9 @@
 
 #include <stdarg.h>
 #include <unistd.h>
-#include <stdlib.h>
 
 int _printf(const char *format, ...);
-int send_char(char c);
-int put_text(char *str);
-
+int _putchar(char c);
+int print_int(va_list args); 
 
 #endif
