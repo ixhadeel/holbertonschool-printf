@@ -6,3 +6,11 @@ _printf \- formatted output conversion
 .BI "int _printf(const char *" format ", ...);"
 .SH DESCRIPTION
 This function produces output according to a format string.
+.SH FORMAT
+.SS Conversion Specifiers
+.TP
+.B c, s, %
+Handle characters, strings, and the percent sign.
+.TP
+.B d, i
+Handle signed decimal integers.
